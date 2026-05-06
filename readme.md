@@ -1,34 +1,30 @@
-# Sistema de Reserva de Entradas de Cine 
+# Simulador de Reservas de Cine Concurrente
 
-**Asignatura:** Sistemas Operativos
-**Alumno:** Elías Sánchez Martín 
-**Correo:** 22323282@live.uem.es
+Este proyecto es una simulación multihilo escrita en C que modela un sistema de reserva de asientos de cine. Utiliza la biblioteca `pthread` para simular usuarios concurrentes y semáforos (`sem_t`) para garantizar la exclusión mutua y evitar condiciones de carrera.
 
-## Descripción del Proyecto
-Este proyecto implementa la simulación de un sistema de reserva de entradas de cine en un entorno concurrente. El objetivo principal es gestionar eficientemente las peticiones simultáneas de múltiples clientes (hilos) intentando reservar asientos compartidos, asegurando la exclusión mutua y previniendo condiciones de carrera mediante el uso de mecanismos de sincronización como semáforos o monitores.
+## Características Principales
 
-## Objetivos
-* **Codificación:** Implementar un sistema de reserva concurrente, empleando semáforos/monitors para proteger los recursos compartidos.
-* **Análisis Crítico:** Evaluar la eficiencia del mecanismo de sincronización utilizado frente a diferentes niveles de demanda y cómo afecta a la integridad de los datos.
-* **Reflexión:** Desarrollar una comprensión práctica sobre los desafíos de implementar sincronización en sistemas operativos modernos.
+*  **Exclusión Mutua de Grano Fino:** Se ha implementado un semáforo independiente por cada asiento (`cinema[row][col].lock`). Esto permite que múltiples usuarios reserven asientos distintos al mismo tiempo sin bloquear toda la sala, maximizando el rendimiento.
+*  **Generador Aleatorio Seguro (Thread-Safe):** La función nativa `rand()` se ha protegido con un semáforo global (`rand_lock`) para evitar colisiones entre hilos al generar las peticiones, solucionando los problemas de concurrencia en entornos Windows.
+*  **Métricas Detalladas:** Al finalizar la simulación, el sistema genera un reporte con el tiempo exacto de ejecución, el total de peticiones procesadas y un desglose por usuario indicando qué coordenadas exactas ha comprado (Ej: A15, H5).
+*  **Interfaz Visual:** Representación en consola de la matriz de la sala (10x15) con cabeceras de filas/columnas y colores ANSI para identificar visualmente las compras de los distintos usuarios.
 
-## Modelo de Datos
-La sala de cine está representada mediante una matriz de **10 filas por 15 columnas** (150 asientos en total).
+---
 
-### Estructura de Asiento (`Asiento` / `Seat`)
-Cada asiento de la matriz almacena:
-* `fila` (int): Coordenada de la fila en la sala.
-* `columna` (int): Coordenada de la columna en la sala.
-* `estaReservado` (bool) / `owner` (int): Estado que indica si el asiento está libre u ocupado. En caso de estar ocupado, puede almacenar el ID del usuario.
+## Requisitos Previos
 
-## Simulación de Concurrencia
-1. **Inicialización:** La sala comienza con todos los asientos marcados como disponibles (no reservados).
-2. **Usuarios (Hilos):** Los clientes se simulan a través de hilos (threads). Cada hilo cuenta con un identificador único (ID del Usuario).
-3. **Solicitudes:** Cada hilo selecciona asientos (de forma aleatoria o predefinida) y lanza peticiones de reserva.
-4. **Sección Crítica:** Antes de marcar un asiento como `Reservado`, el sistema verifica su disponibilidad. Este paso de verificación y escritura es atómico gracias a la protección mediante **semáforos o mutex**.
+Para poder compilar y ejecutar este código, necesitas tener instalado un compilador de C que soporte la librería POSIX Threads (`pthread`). 
+*   **En Windows:** Se recomienda usar **MinGW / GCC**.
+*   **En Linux:** Paquete `build-essential` (`gcc`).
 
-## Evaluación y Pruebas
-El sistema permite realizar pruebas de estrés para evaluar:
-* Comportamiento bajo altos niveles de concurrencia.
-* Ausencia de bloqueos (*deadlocks*).
-* Integridad y consistencia de los datos finales (sin asientos sobreescritos por dos usuarios a la vez).
+---
+
+## Cómo compilar y ejecutar el código
+
+Abre una terminal (PowerShell, CMD o bash) en la carpeta donde se encuentran los archivos fuente (`main.c`, `cinema.c`, `seat.h`) y sigue estos pasos:
+
+### 1. Compilar el programa
+Ejecuta el siguiente comando para compilar el código. Esto unirá los archivos y generará un ejecutable llamado `cinema_sim.exe`:
+
+```bash
+gcc -Wall -pthread -o cinema_sim.exe main.c cinema.c
