@@ -42,7 +42,7 @@ Puedes especificar el número de usuarios que deseas simular pasando el valor co
 ```bash
 ./cinema 15
 ./cinema 150
-.cinema X
+./cinema X
 ```
 
 ## Características Técnicas
