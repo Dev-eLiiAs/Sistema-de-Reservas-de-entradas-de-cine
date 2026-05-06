@@ -5,7 +5,7 @@ Aquí tienes el contenido íntegro del archivo **README.md** en formato Markdown
 
 Este proyecto consiste en una simulación multihilo desarrollada en lenguaje C que modela un sistema de reserva de asientos para una sala de cine. Utiliza la biblioteca `pthread` para gestionar usuarios concurrentes y semáforos (`sem_t`) bajo el estándar POSIX para garantizar la exclusión mutua y evitar condiciones de carrera.
 
-## 🛠️ Requisitos del Sistema
+## Requisitos del Sistema
 
 Para compilar y ejecutar este programa en tu terminal o VM de Linux, es necesario contar con el compilador `gcc` y las herramientas de desarrollo esenciales:
 ```bash
