@@ -1,6 +1,4 @@
-Aquí tienes el contenido íntegro del archivo **README.md** en formato Markdown, listo para que lo copies y pegues directamente en tu archivo dentro de la VM de Linux.
 
-```markdown
 # Sistema de Reservas de Cine Concurrente (Linux)
 
 Este proyecto consiste en una simulación multihilo desarrollada en lenguaje C que modela un sistema de reserva de asientos para una sala de cine. Utiliza la biblioteca `pthread` para gestionar usuarios concurrentes y semáforos (`sem_t`) bajo el estándar POSIX para garantizar la exclusión mutua y evitar condiciones de carrera.
