@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include "seat.h"
 
 // Inicializamos la sala y preparamos los semaforos de los asientos
